@@ -1,0 +1,26 @@
+apply plugin: 'com.jfrog.bintray'
+
+version = '1.0.0' //YOUR LIBRARY VERSION
+
+def siteUrl = 'https://github.com/gonzalonm/webapp-lib'      // Homepage URL of the library
+def gitUrl = 'https://github.com/gonzalonm/webapp-lib.git'   // Git repository URL
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('bintray.properties').newDataInputStream())
+
+bintray {
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
+
+    // jFrog plugin must be declared for this line to work
+    configurations = ['archives']
+    // Package info for BinTray
+    pkg {
+        repo = "android-utilities"
+        name = "webapp"
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
+        licenses = ["Apache-2.0"]
+        publish = true
+    }
+}
