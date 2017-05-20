@@ -1,2 +1,8 @@
 # webapp-lib
-Template for Android web apps
+
+# Setup
+
+## Gradle
+```
+compile 'lalosoft.android-utilities:webapp:1.0.0'
+```
