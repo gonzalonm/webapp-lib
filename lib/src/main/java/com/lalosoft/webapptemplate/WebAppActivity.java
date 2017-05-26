@@ -1,6 +1,7 @@
 package com.lalosoft.webapptemplate;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -8,7 +9,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 import android.view.WindowManager;
-import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -85,9 +85,7 @@ public abstract class WebAppActivity extends AppCompatActivity {
         finish();
     }
 
-    protected boolean shouldOverrideUrlLoading(WebView webView, WebResourceRequest request) {
-        return false;
-    }
+    protected void onPageStarted(WebView view, String url, Bitmap favicon) {}
 
     // endregion
 
@@ -104,9 +102,10 @@ public abstract class WebAppActivity extends AppCompatActivity {
             webView.getSettings().setBuiltInZoomControls(true);
             webView.getSettings().setSupportZoom(true);
             webView.setWebViewClient(new WebViewClient() {
+
                 @Override
-                public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-                    return WebAppActivity.this.shouldOverrideUrlLoading(view, request);
+                public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                    WebAppActivity.this.onPageStarted(view, url, favicon);
                 }
 
                 public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
