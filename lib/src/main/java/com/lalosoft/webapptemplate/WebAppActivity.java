@@ -33,8 +33,8 @@ public abstract class WebAppActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         this.savedInstanceState = savedInstanceState;
 
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        if (canUsePreSetContentView())
+            onPreSetContentView();
 
         setContentView(R.layout.activity_webapp);
         webView = (WebView) findViewById(R.id.webview);
@@ -85,7 +85,21 @@ public abstract class WebAppActivity extends AppCompatActivity {
         finish();
     }
 
-    protected void onPageStarted(WebView view, String url, Bitmap favicon) {}
+    protected void onPageStarted(WebView view, String url, Bitmap favicon) {
+    }
+
+    protected boolean canUsePreSetContentView() {
+        return true;
+    }
+
+    protected void onPreSetContentView() {
+        allowFullscreen();
+    }
+
+    protected void allowFullscreen() {
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+    }
 
     // endregion
 
