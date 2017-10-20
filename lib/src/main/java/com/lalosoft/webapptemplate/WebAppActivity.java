@@ -9,6 +9,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 import android.view.WindowManager;
+import android.webkit.WebResourceError;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -16,7 +18,7 @@ import android.webkit.WebViewClient;
  * Created by gonzalonm on 5/10/17
  */
 
-public abstract class WebAppActivity extends AppCompatActivity {
+public abstract class WebAppActivity extends AppCompatActivity implements NetworkAvailabilityListener {
 
     protected abstract String getRootUrl();
 
@@ -41,6 +43,14 @@ public abstract class WebAppActivity extends AppCompatActivity {
 
         loadWebApp();
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //registerReceiver();
+    }
+
+
 
     @Override
     public void onBackPressed() {
@@ -69,6 +79,18 @@ public abstract class WebAppActivity extends AppCompatActivity {
         }
     }
 
+    // endregion
+
+    // region NetworkAvailabilityListener implementation
+    @Override
+    public void onNetworkConnected() {
+
+    }
+
+    @Override
+    public void onNetworkDisconnected() {
+
+    }
     // endregion
 
     // region override methods by subclasses
@@ -101,6 +123,13 @@ public abstract class WebAppActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 
+    /**
+     * Loads data again. This is common when network becomes enabled.
+     */
+    protected void requestData() {
+        loadData();
+    }
+
     // endregion
 
     // region private implementation
@@ -122,8 +151,9 @@ public abstract class WebAppActivity extends AppCompatActivity {
                     WebAppActivity.this.onPageStarted(view, url, favicon);
                 }
 
-                public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-                    WebAppActivity.this.failingUrl = failingUrl;
+                @Override
+                public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+                    super.onReceivedError(view, request, error);
                 }
             });
 
