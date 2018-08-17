@@ -1,5 +1,6 @@
 package com.lalosoft.webapptemplate;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
@@ -37,9 +38,15 @@ public abstract class WebAppActivity extends AppCompatActivity {
             onPreSetContentView();
 
         setContentView(R.layout.activity_webapp);
-        webView = (WebView) findViewById(R.id.webview);
+        webView = findViewById(R.id.webview);
 
         loadWebApp();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        webView.onPause();
     }
 
     @Override
@@ -55,6 +62,7 @@ public abstract class WebAppActivity extends AppCompatActivity {
         }
     }
 
+    @SuppressLint("MissingSuperCall")
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         if (webView != null) {
