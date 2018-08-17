@@ -4,5 +4,5 @@
 
 ## Gradle
 ```
-compile 'lalosoft.android-utilities:webapp:1.0.2'
+compile 'lalosoft.android-utilities:webapp:1.0.3'
 ```
